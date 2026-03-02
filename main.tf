@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "learning-terraform-amit-2026"
+  bucket = var.bucket_name
 }
