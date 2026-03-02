@@ -1,5 +1,14 @@
 # Terraform Learning Notes
 
+## Where to Continue
+Steps completed: credentials → first config → core workflow → variables/outputs → remote state → modules
+
+Next options:
+- **Workspaces** — manage dev/staging/prod with the same config
+- **Data sources** — read existing AWS resources not created by Terraform
+- **Real-world project** — VPC + EC2 instance
+- **Terraform Cloud** — managed remote state + CI/CD runs
+
 ## Core Workflow
 
 ```sh
@@ -47,6 +56,34 @@ aws s3 ls s3://<bucket-name>/           # Verify state file exists in S3
 | `.terraform.lock.hcl` | Locks provider versions | ✅ |
 | `.terraform/` | Downloaded provider plugins | ❌ |
 | `terraform.tfstate` | State file (use remote state instead) | ❌ |
+
+## State Management
+
+```sh
+terraform state mv <old_address> <new_address>  # Rename a resource in state without touching real infrastructure
+```
+
+Use `state mv` when refactoring — e.g. moving a resource into a module changes its address from
+`aws_s3_bucket.my_bucket` to `module.my_bucket.aws_s3_bucket.this`.
+
+## Modules
+
+```hcl
+# Calling a local module
+module "my_bucket" {
+  source             = "./modules/s3_bucket"
+  bucket_name        = var.bucket_name
+  versioning_enabled = true
+}
+
+# Referencing a module output
+module.my_bucket.bucket_name
+```
+
+- A module is just a folder of Terraform files
+- Modules have their own `variables.tf` (inputs) and `outputs.tf` (outputs)
+- Run `terraform init` after adding a new module
+- Inside a module, name the resource `this` when there's only one resource of that type
 
 ## Syntax Reference
 
