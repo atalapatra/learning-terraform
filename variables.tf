@@ -13,3 +13,8 @@ variable "logs_bucket_name" {
   description = "The name of the logs S3 bucket"
   type        = string
 }
+
+variable "archive_bucket_name" {
+  description = "The name of the archive S3 bucket"
+  type        = string
+}

@@ -75,3 +75,9 @@ module "logs_bucket" {
   bucket_name        = var.logs_bucket_name
   versioning_enabled = false
 }
+
+module "archive_bucket" {
+  source             = "./modules/s3_bucket"
+  bucket_name        = var.archive_bucket_name
+  versioning_enabled = false
+}
