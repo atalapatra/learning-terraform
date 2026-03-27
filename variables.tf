@@ -8,3 +8,8 @@ variable "aws_region" {
   type        = string
   default     = "us-east-1"
 }
+
+variable "logs_bucket_name" {
+  description = "The name of the logs S3 bucket"
+  type        = string
+}

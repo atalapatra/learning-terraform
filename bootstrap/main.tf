@@ -48,38 +48,6 @@ resource "aws_iam_role" "github_actions" {
   })
 }
 
-# Permissions the role needs to manage S3 resources + read/write remote state
-resource "aws_iam_role_policy" "github_actions" {
-  name = "github-actions-learning-terraform-policy"
-  role = aws_iam_role.github_actions.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid    = "S3FullAccess"
-        Effect = "Allow"
-        Action = ["s3:*"]
-        Resource = [
-          "arn:aws:s3:::learning-terraform-amit-2026",
-          "arn:aws:s3:::learning-terraform-amit-2026/*",
-          "arn:aws:s3:::learning-terraform-amit-state",
-          "arn:aws:s3:::learning-terraform-amit-state/*"
-        ]
-      },
-      {
-        Sid    = "DynamoDBStateLock"
-        Effect = "Allow"
-        Action = [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:DeleteItem"
-        ]
-        Resource = "arn:aws:dynamodb:us-east-1:*:table/terraform-state-lock"
-      }
-    ]
-  })
-}
 
 output "role_arn" {
   description = "ARN of the IAM role — add this as the AWS_ROLE_ARN secret in GitHub"

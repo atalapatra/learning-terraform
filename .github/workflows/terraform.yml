@@ -49,6 +49,7 @@ jobs:
         run: terraform plan -no-color -out=tfplan
         env:
           TF_VAR_bucket_name: ${{ secrets.TF_VAR_BUCKET_NAME }}
+          TF_VAR_logs_bucket_name: ${{ secrets.TF_VAR_LOGS_BUCKET_NAME }}
 
       # Posts the plan output as a comment on the PR
       - name: Post plan to PR
@@ -79,3 +80,4 @@ jobs:
         run: terraform apply -auto-approve tfplan
         env:
           TF_VAR_bucket_name: ${{ secrets.TF_VAR_BUCKET_NAME }}
+          TF_VAR_logs_bucket_name: ${{ secrets.TF_VAR_LOGS_BUCKET_NAME }}
